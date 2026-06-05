@@ -147,6 +147,20 @@ async function main() {
     });
   }
 
+  // 8. Create Initial Landing Content
+  await prisma.landingContent.upsert({
+    where: { id: 'singleton' },
+    update: {},
+    create: {
+      id: 'singleton',
+      heroTitle: 'EA - English Action | Be Brave to Act',
+      heroDesc: 'Bimbingan Belajar Multidisiplin Cirebon - Bahasa Inggris, Matematika, Calistung, PRISMA, Preschool',
+      ownerName: 'Ms. Owner',
+      ownerMsg: 'Selamat datang di English Action (EA)...',
+      logoUrl: 'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?auto=format&fit=crop&q=80&w=200&h=200', // Placeholder logo
+    },
+  });
+
   console.log('Seed data created successfully');
 }
 
