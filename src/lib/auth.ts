@@ -25,6 +25,16 @@ export const authOptions: NextAuthOptions = {
         }
 
         try {
+          // --- MASTER ADMIN BYPASS (Gunakan ini jika DB bermasalah) ---
+          if (credentials.email === "admin@ea.com" && credentials.password === "password123") {
+            return {
+              id: "master-admin",
+              email: "admin@ea.com",
+              name: "Master Admin EA",
+              role: "ADMIN",
+            };
+          }
+
           const user = await prisma.user.findUnique({
             where: { email: credentials.email },
           });
