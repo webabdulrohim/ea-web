@@ -88,18 +88,21 @@ export default function AdminSettings() {
               <div className="flex flex-col gap-4">
                 <input 
                   type="text"
-                  placeholder="Atau masukkan path manual (misal: /logo.png)"
+                  placeholder="Tempel link gambar (URL) di sini"
                   value={formData.logoUrl}
                   onChange={(e) => setFormData({...formData, logoUrl: e.target.value})}
-                  className="px-4 py-2 border rounded-xl text-xs font-bold"
+                  className="px-4 py-2 border rounded-xl text-xs font-bold outline-none focus:border-sky-600"
                 />
+                <div className="relative py-2">
+                  <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-gray-100"></span></div>
+                  <div className="relative flex justify-center text-[8px] font-black text-gray-300 uppercase tracking-widest bg-white px-2 text-center">Atau Unggah (Opsional)</div>
+                </div>
                 <input 
                   type="file" 
                   accept="image/*"
                   onChange={(e) => e.target.files?.[0] && handleUpload(e.target.files[0], "logoUrl")}
-                  className="text-xs file:mr-4 file:py-2.5 file:px-6 file:rounded-full file:border-0 file:text-[10px] file:font-black file:bg-sky-600 file:text-white hover:file:bg-sky-700 cursor-pointer transition-all"
+                  className="text-xs file:mr-4 file:py-2.5 file:px-6 file:rounded-full file:border-0 file:text-[10px] file:font-black file:bg-gray-100 file:text-gray-600 hover:file:bg-gray-200 cursor-pointer transition-all"
                 />
-                <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest px-2">Rekomendasi: PNG Transparan 512x512px</p>
               </div>
             </div>
           </div>
@@ -133,10 +136,10 @@ export default function AdminSettings() {
             </div>
 
             <div>
-              <label className="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4 px-1 flex items-center gap-2">Gambar Hero (Tampilan Utama)</label>
+              <label className="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4 px-1 flex items-center gap-2">Gambar Hero (Link URL)</label>
               <input 
                 type="text"
-                placeholder="Path manual: /uploads/hero.jpg"
+                placeholder="Tempel link gambar (URL) di sini"
                 value={formData.heroImageUrl}
                 onChange={(e) => setFormData({...formData, heroImageUrl: e.target.value})}
                 className="w-full mb-4 px-6 py-3 border-2 border-gray-100 rounded-2xl text-xs font-bold focus:border-sky-600 outline-none"
@@ -147,7 +150,7 @@ export default function AdminSettings() {
                 ) : (
                   <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-300">
                     <Camera size={48} strokeWidth={1} />
-                    <p className="mt-4 font-black text-[10px] uppercase tracking-widest">Belum Ada Gambar</p>
+                    <p className="mt-4 font-black text-[10px] uppercase tracking-widest text-center px-4">Belum Ada Gambar / Link Tidak Valid</p>
                   </div>
                 )}
                 <div className="absolute inset-0 bg-sky-600/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-8">
@@ -157,7 +160,7 @@ export default function AdminSettings() {
                     onChange={(e) => e.target.files?.[0] && handleUpload(e.target.files[0], "heroImageUrl")}
                     className="absolute inset-0 opacity-0 cursor-pointer"
                   />
-                  <div className="bg-white text-gray-950 px-6 py-3 rounded-full font-black text-[10px] uppercase tracking-widest shadow-xl">Ganti Gambar Hero</div>
+                  <div className="bg-white text-gray-950 px-6 py-3 rounded-full font-black text-[10px] uppercase tracking-widest shadow-xl">Ganti dengan Upload</div>
                 </div>
               </div>
             </div>
@@ -192,10 +195,10 @@ export default function AdminSettings() {
             </div>
 
             <div>
-              <label className="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4 px-1 flex items-center gap-2">Foto Owner</label>
+              <label className="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4 px-1 flex items-center gap-2">Foto Owner (Link URL)</label>
               <input 
                 type="text"
-                placeholder="Path manual: /uploads/owner.jpg"
+                placeholder="Tempel link gambar (URL) di sini"
                 value={formData.ownerImageUrl}
                 onChange={(e) => setFormData({...formData, ownerImageUrl: e.target.value})}
                 className="w-full mb-4 px-6 py-3 border-2 border-gray-100 rounded-2xl text-xs font-bold focus:border-sky-600 outline-none"
@@ -206,7 +209,7 @@ export default function AdminSettings() {
                 ) : (
                   <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-300">
                     <Camera size={48} strokeWidth={1} />
-                    <p className="mt-4 font-black text-[10px] uppercase tracking-widest">Belum Ada Foto</p>
+                    <p className="mt-4 font-black text-[10px] uppercase tracking-widest text-center px-4">Belum Ada Foto / Link Tidak Valid</p>
                   </div>
                 )}
                 <div className="absolute inset-0 bg-sky-600/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-8">
@@ -216,7 +219,7 @@ export default function AdminSettings() {
                     onChange={(e) => e.target.files?.[0] && handleUpload(e.target.files[0], "ownerImageUrl")}
                     className="absolute inset-0 opacity-0 cursor-pointer"
                   />
-                  <div className="bg-white text-gray-950 px-6 py-3 rounded-full font-black text-[10px] uppercase tracking-widest shadow-xl">Ganti Foto Owner</div>
+                  <div className="bg-white text-gray-950 px-6 py-3 rounded-full font-black text-[10px] uppercase tracking-widest shadow-xl">Ganti dengan Upload</div>
                 </div>
               </div>
             </div>

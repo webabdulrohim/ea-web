@@ -126,18 +126,18 @@ export default function AdminGallery() {
                 />
               </div>
               <div>
-                <label className="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-3 px-1">URL atau Path Gambar</label>
+                <label className="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-3 px-1">Link Gambar (URL)</label>
                 <div className="flex gap-2">
                   <input 
                     required
                     value={formData.url}
                     onChange={(e) => setFormData({...formData, url: e.target.value})}
                     className="flex-1 px-6 py-4 rounded-2xl border-2 border-gray-100 bg-gray-50 focus:border-sky-600 outline-none transition-all font-bold text-gray-900" 
-                    placeholder="Contoh: /uploads/kegiatan-1.jpg"
+                    placeholder="Tempel link gambar di sini (misal: https://...)"
                   />
                 </div>
                 <p className="mt-2 text-[9px] text-gray-400 font-bold uppercase tracking-widest px-1">
-                  Tips: Masukkan path file yang Anda upload ke GitHub (mulai dengan /uploads/)
+                  Tips: Anda bisa menggunakan link dari Google Drive (publik), Imgur, atau hosting gambar lainnya.
                 </p>
               </div>
 
