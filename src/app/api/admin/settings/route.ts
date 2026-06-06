@@ -30,8 +30,15 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session || session.user.role !== "ADMIN") {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    
+    if (!session) {
+      console.error("Settings POST: No session found");
+      return NextResponse.json({ error: "Unauthorized: No session" }, { status: 401 });
+    }
+
+    if (session.user.role !== "ADMIN") {
+      console.error("Settings POST: User is not ADMIN", session.user.role);
+      return NextResponse.json({ error: "Unauthorized: Admin only" }, { status: 401 });
     }
 
     const body = await req.json();
@@ -59,6 +66,9 @@ export async function POST(req: Request) {
     return NextResponse.json(settings);
   } catch (error: any) {
     console.error("LP Settings Save Error:", error);
-    return NextResponse.json({ error: error.message || "Internal Error" }, { status: 500 });
+    return NextResponse.json({ 
+      error: "Failed to save settings", 
+      details: error.message 
+    }, { status: 500 });
   }
 }

@@ -20,21 +20,38 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session || session.user.role !== "ADMIN") {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    
+    if (!session) {
+      console.error("Gallery POST: No session found");
+      return NextResponse.json({ error: "Unauthorized: No session" }, { status: 401 });
+    }
+
+    if (session.user.role !== "ADMIN") {
+      console.error("Gallery POST: User is not ADMIN", session.user.role);
+      return NextResponse.json({ error: "Unauthorized: Admin only" }, { status: 401 });
     }
 
     const body = await req.json();
+    
+    if (!body.url) {
+      return NextResponse.json({ error: "Image URL is required" }, { status: 400 });
+    }
+
     const item = await prisma.galleryItem.create({
       data: {
-        ...body,
+        title: body.title || "EA Documentation",
+        url: body.url,
         type: "IMAGE"
       },
     });
 
     return NextResponse.json(item);
-  } catch (error) {
-    return NextResponse.json({ error: "Internal Error" }, { status: 500 });
+  } catch (error: any) {
+    console.error("Gallery Save Error:", error);
+    return NextResponse.json({ 
+      error: "Failed to save to database", 
+      details: error.message 
+    }, { status: 500 });
   }
 }
 
