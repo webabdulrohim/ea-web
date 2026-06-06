@@ -126,17 +126,36 @@ export default function AdminGallery() {
                 />
               </div>
               <div>
-                <label className="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4 px-1 flex items-center gap-2"><ImageIcon size={12} /> Pilih Foto Untuk Diupload</label>
-                <div className="flex flex-col items-center justify-center p-12 bg-gray-50 rounded-[2.5rem] border-2 border-dashed border-gray-200 group-hover:border-sky-600 transition-colors relative overflow-hidden">
-                   {formData.url ? (
+                <label className="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-3 px-1">URL atau Path Gambar</label>
+                <div className="flex gap-2">
+                  <input 
+                    required
+                    value={formData.url}
+                    onChange={(e) => setFormData({...formData, url: e.target.value})}
+                    className="flex-1 px-6 py-4 rounded-2xl border-2 border-gray-100 bg-gray-50 focus:border-sky-600 outline-none transition-all font-bold text-gray-900" 
+                    placeholder="Contoh: /uploads/kegiatan-1.jpg"
+                  />
+                </div>
+                <p className="mt-2 text-[9px] text-gray-400 font-bold uppercase tracking-widest px-1">
+                  Tips: Masukkan path file yang Anda upload ke GitHub (mulai dengan /uploads/)
+                </p>
+              </div>
+
+              <div className="relative py-4">
+                <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-gray-100"></span></div>
+                <div className="relative flex justify-center text-[10px] font-black text-gray-300 uppercase tracking-widest bg-white px-4">Atau Gunakan Pengunggah (Opsional)</div>
+              </div>
+
+              <div>
+                <label className="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4 px-1 flex items-center gap-2"><ImageIcon size={12} /> Upload dari Komputer</label>
+                <div className="flex flex-col items-center justify-center p-8 bg-gray-50 rounded-[2.5rem] border-2 border-dashed border-gray-200 group-hover:border-sky-600 transition-colors relative overflow-hidden">
+                   {formData.url && formData.url.startsWith("http") ? (
                      <img src={formData.url} className="absolute inset-0 w-full h-full object-cover opacity-20" />
                    ) : null}
                    <div className="relative z-10 text-center">
-                      <ImageIcon size={48} className="mx-auto mb-4 text-gray-300" />
                       <input 
                         type="file" 
                         accept="image/*"
-                        required={!formData.url}
                         onChange={async (e) => {
                           const file = e.target.files?.[0];
                           if (file) {
@@ -145,15 +164,14 @@ export default function AdminGallery() {
                               uploadData.append("file", file);
                               const res = await axios.post("/api/upload", uploadData);
                               setFormData({...formData, url: res.data.url});
+                              alert("Berhasil diunggah ke cloud!");
                             } catch (err: any) {
-                              const errMsg = err.response?.data?.error || err.response?.data?.details || "Gagal mengunggah foto";
-                              alert("Upload Gagal: " + errMsg);
+                              alert("Gagal upload cloud. Silakan gunakan input manual path di atas.");
                             }
                           }
                         }}
-                        className="text-xs text-gray-500 file:mr-4 file:py-3 file:px-6 file:rounded-2xl file:border-0 file:text-[10px] file:font-black file:bg-sky-600 file:text-white cursor-pointer shadow-lg shadow-sky-100"
+                        className="text-xs text-gray-500 file:mr-4 file:py-3 file:px-6 file:rounded-2xl file:border-0 file:text-[10px] file:font-black file:bg-gray-200 file:text-gray-600 cursor-pointer"
                       />
-                      <p className="mt-4 text-[10px] text-gray-400 font-bold uppercase tracking-widest">{formData.url ? "FOTO TERPILIH" : "PNG, JPG MAKS 5MB"}</p>
                    </div>
                 </div>
               </div>

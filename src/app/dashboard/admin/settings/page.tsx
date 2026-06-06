@@ -87,6 +87,13 @@ export default function AdminSettings() {
               </div>
               <div className="flex flex-col gap-4">
                 <input 
+                  type="text"
+                  placeholder="Atau masukkan path manual (misal: /logo.png)"
+                  value={formData.logoUrl}
+                  onChange={(e) => setFormData({...formData, logoUrl: e.target.value})}
+                  className="px-4 py-2 border rounded-xl text-xs font-bold"
+                />
+                <input 
                   type="file" 
                   accept="image/*"
                   onChange={(e) => e.target.files?.[0] && handleUpload(e.target.files[0], "logoUrl")}
@@ -127,6 +134,13 @@ export default function AdminSettings() {
 
             <div>
               <label className="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4 px-1 flex items-center gap-2">Gambar Hero (Tampilan Utama)</label>
+              <input 
+                type="text"
+                placeholder="Path manual: /uploads/hero.jpg"
+                value={formData.heroImageUrl}
+                onChange={(e) => setFormData({...formData, heroImageUrl: e.target.value})}
+                className="w-full mb-4 px-6 py-3 border-2 border-gray-100 rounded-2xl text-xs font-bold focus:border-sky-600 outline-none"
+              />
               <div className="relative aspect-[3/4] w-full bg-gray-50 rounded-[2.5rem] border-2 border-dashed border-gray-200 overflow-hidden group">
                 {formData.heroImageUrl ? (
                    <img src={formData.heroImageUrl} className="w-full h-full object-cover" />
@@ -179,6 +193,13 @@ export default function AdminSettings() {
 
             <div>
               <label className="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4 px-1 flex items-center gap-2">Foto Owner</label>
+              <input 
+                type="text"
+                placeholder="Path manual: /uploads/owner.jpg"
+                value={formData.ownerImageUrl}
+                onChange={(e) => setFormData({...formData, ownerImageUrl: e.target.value})}
+                className="w-full mb-4 px-6 py-3 border-2 border-gray-100 rounded-2xl text-xs font-bold focus:border-sky-600 outline-none"
+              />
               <div className="relative aspect-[3/4] w-full bg-gray-50 rounded-[2.5rem] border-2 border-dashed border-gray-200 overflow-hidden group">
                 {formData.ownerImageUrl ? (
                    <img src={formData.ownerImageUrl} className="w-full h-full object-cover" />
