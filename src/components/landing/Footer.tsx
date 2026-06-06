@@ -23,10 +23,10 @@ export default function Footer() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-16 lg:gap-20 text-center lg:text-left">
           <div className="lg:col-span-2 space-y-8 lg:space-y-10">
             <Link href="/" className="flex items-center justify-center lg:justify-start gap-4 group">
-              <div className="relative w-12 h-12 lg:w-16 lg:h-16 overflow-hidden transition-transform duration-500 group-hover:rotate-[10deg]">
+              <div className="relative w-16 h-16 lg:w-24 lg:h-24 overflow-hidden transition-transform duration-500 group-hover:rotate-[10deg]">
                 <Image src={logoUrl} alt="EA Logo" fill className="object-contain" />
               </div>
-              <span className="text-3xl lg:text-4xl font-black text-gray-950 tracking-tighter uppercase italic">English Action</span>
+              <span className="text-3xl lg:text-5xl font-black text-gray-950 tracking-tighter uppercase italic">English Action</span>
             </Link>
             <p className="text-lg lg:text-2xl text-gray-400 font-medium leading-relaxed max-w-md mx-auto lg:mx-0 italic">
               Pusat bimbingan belajar multidisiplin yang membantu anak tumbuh berani dan cerdas.

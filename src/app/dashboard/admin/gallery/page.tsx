@@ -137,43 +137,8 @@ export default function AdminGallery() {
                   />
                 </div>
                 <p className="mt-2 text-[9px] text-gray-400 font-bold uppercase tracking-widest px-1">
-                  Tips: Anda bisa menggunakan link dari Google Drive (publik), Imgur, atau hosting gambar lainnya.
+                  Tips: Gunakan link langsung ke gambar dari internet.
                 </p>
-              </div>
-
-              <div className="relative py-4">
-                <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-gray-100"></span></div>
-                <div className="relative flex justify-center text-[10px] font-black text-gray-300 uppercase tracking-widest bg-white px-4">Atau Gunakan Pengunggah (Opsional)</div>
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4 px-1 flex items-center gap-2"><ImageIcon size={12} /> Upload dari Komputer</label>
-                <div className="flex flex-col items-center justify-center p-8 bg-gray-50 rounded-[2.5rem] border-2 border-dashed border-gray-200 group-hover:border-sky-600 transition-colors relative overflow-hidden">
-                   {formData.url && formData.url.startsWith("http") ? (
-                     <img src={formData.url} className="absolute inset-0 w-full h-full object-cover opacity-20" />
-                   ) : null}
-                   <div className="relative z-10 text-center">
-                      <input 
-                        type="file" 
-                        accept="image/*"
-                        onChange={async (e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            try {
-                              const uploadData = new FormData();
-                              uploadData.append("file", file);
-                              const res = await axios.post("/api/upload", uploadData);
-                              setFormData({...formData, url: res.data.url});
-                              alert("Berhasil diunggah ke cloud!");
-                            } catch (err: any) {
-                              alert("Gagal upload cloud. Silakan gunakan input manual path di atas.");
-                            }
-                          }
-                        }}
-                        className="text-xs text-gray-500 file:mr-4 file:py-3 file:px-6 file:rounded-2xl file:border-0 file:text-[10px] file:font-black file:bg-gray-200 file:text-gray-600 cursor-pointer"
-                      />
-                   </div>
-                </div>
               </div>
 
               <div className="pt-4">

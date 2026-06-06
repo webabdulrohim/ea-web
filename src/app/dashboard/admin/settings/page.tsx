@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Save, Layout, User, CheckCircle, X, Type, FileText, Image as ImageIcon, Camera } from "lucide-react";
+import { Save, Layout, User, Type, FileText, Image as ImageIcon, Camera } from "lucide-react";
 import axios from "axios";
-import { motion } from "framer-motion";
 
 export default function AdminSettings() {
   const [loading, setLoading] = useState(true);
@@ -36,19 +35,6 @@ export default function AdminSettings() {
     });
   }, []);
 
-  const handleUpload = async (file: File, field: string) => {
-    const uploadData = new FormData();
-    uploadData.append("file", file);
-    try {
-      const res = await axios.post("/api/upload", uploadData);
-      setFormData(prev => ({ ...prev, [field]: res.data.url }));
-      alert("Gambar berhasil diunggah!");
-    } catch (err: any) {
-      const errMsg = err.response?.data?.error || err.response?.data?.details || "Gagal mengunggah gambar.";
-      alert("Upload Gagal: " + errMsg);
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
@@ -80,29 +66,20 @@ export default function AdminSettings() {
             <h3 className="text-xl font-black text-gray-900 uppercase tracking-tight">Logo & Branding</h3>
           </div>
           <div>
-            <label className="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4 px-1 flex items-center gap-2">Logo Utama</label>
+            <label className="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4 px-1 flex items-center gap-2">Logo Utama (Link URL)</label>
             <div className="flex items-center gap-8">
-              <div className="w-32 h-32 bg-gray-50 rounded-[2rem] border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden">
-                {formData.logoUrl ? <img src={formData.logoUrl} className="w-full h-full object-contain p-4" /> : <ImageIcon size={32} className="text-gray-200" />}
+              <div className="w-48 h-48 bg-gray-50 rounded-[2rem] border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden">
+                {formData.logoUrl ? <img src={formData.logoUrl} className="w-full h-full object-contain p-4" /> : <ImageIcon size={48} className="text-gray-200" />}
               </div>
-              <div className="flex flex-col gap-4">
+              <div className="flex-1">
                 <input 
                   type="text"
-                  placeholder="Tempel link gambar (URL) di sini"
+                  placeholder="Tempel link logo (URL) di sini"
                   value={formData.logoUrl}
                   onChange={(e) => setFormData({...formData, logoUrl: e.target.value})}
-                  className="px-4 py-2 border rounded-xl text-xs font-bold outline-none focus:border-sky-600"
+                  className="w-full px-6 py-4 border-2 border-gray-100 rounded-2xl text-sm font-bold outline-none focus:border-sky-600"
                 />
-                <div className="relative py-2">
-                  <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-gray-100"></span></div>
-                  <div className="relative flex justify-center text-[8px] font-black text-gray-300 uppercase tracking-widest bg-white px-2 text-center">Atau Unggah (Opsional)</div>
-                </div>
-                <input 
-                  type="file" 
-                  accept="image/*"
-                  onChange={(e) => e.target.files?.[0] && handleUpload(e.target.files[0], "logoUrl")}
-                  className="text-xs file:mr-4 file:py-2.5 file:px-6 file:rounded-full file:border-0 file:text-[10px] file:font-black file:bg-gray-100 file:text-gray-600 hover:file:bg-gray-200 cursor-pointer transition-all"
-                />
+                <p className="mt-4 text-[9px] text-gray-400 font-bold uppercase tracking-widest px-2">Masukkan link gambar langsung (misal: https://imgur.com/logo.png)</p>
               </div>
             </div>
           </div>
@@ -139,12 +116,12 @@ export default function AdminSettings() {
               <label className="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4 px-1 flex items-center gap-2">Gambar Hero (Link URL)</label>
               <input 
                 type="text"
-                placeholder="Tempel link gambar (URL) di sini"
+                placeholder="Tempel link gambar hero (URL) di sini"
                 value={formData.heroImageUrl}
                 onChange={(e) => setFormData({...formData, heroImageUrl: e.target.value})}
                 className="w-full mb-4 px-6 py-3 border-2 border-gray-100 rounded-2xl text-xs font-bold focus:border-sky-600 outline-none"
               />
-              <div className="relative aspect-[3/4] w-full bg-gray-50 rounded-[2.5rem] border-2 border-dashed border-gray-200 overflow-hidden group">
+              <div className="relative aspect-[3/4] w-full bg-gray-50 rounded-[2.5rem] border-2 border-dashed border-gray-200 overflow-hidden">
                 {formData.heroImageUrl ? (
                    <img src={formData.heroImageUrl} className="w-full h-full object-cover" />
                 ) : (
@@ -153,15 +130,6 @@ export default function AdminSettings() {
                     <p className="mt-4 font-black text-[10px] uppercase tracking-widest text-center px-4">Belum Ada Gambar / Link Tidak Valid</p>
                   </div>
                 )}
-                <div className="absolute inset-0 bg-sky-600/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-8">
-                  <input 
-                    type="file" 
-                    accept="image/*"
-                    onChange={(e) => e.target.files?.[0] && handleUpload(e.target.files[0], "heroImageUrl")}
-                    className="absolute inset-0 opacity-0 cursor-pointer"
-                  />
-                  <div className="bg-white text-gray-950 px-6 py-3 rounded-full font-black text-[10px] uppercase tracking-widest shadow-xl">Ganti dengan Upload</div>
-                </div>
               </div>
             </div>
           </div>
@@ -198,12 +166,12 @@ export default function AdminSettings() {
               <label className="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4 px-1 flex items-center gap-2">Foto Owner (Link URL)</label>
               <input 
                 type="text"
-                placeholder="Tempel link gambar (URL) di sini"
+                placeholder="Tempel link foto owner (URL) di sini"
                 value={formData.ownerImageUrl}
                 onChange={(e) => setFormData({...formData, ownerImageUrl: e.target.value})}
                 className="w-full mb-4 px-6 py-3 border-2 border-gray-100 rounded-2xl text-xs font-bold focus:border-sky-600 outline-none"
               />
-              <div className="relative aspect-[3/4] w-full bg-gray-50 rounded-[2.5rem] border-2 border-dashed border-gray-200 overflow-hidden group">
+              <div className="relative aspect-[3/4] w-full bg-gray-50 rounded-[2.5rem] border-2 border-dashed border-gray-200 overflow-hidden">
                 {formData.ownerImageUrl ? (
                    <img src={formData.ownerImageUrl} className="w-full h-full object-cover" />
                 ) : (
@@ -212,15 +180,6 @@ export default function AdminSettings() {
                     <p className="mt-4 font-black text-[10px] uppercase tracking-widest text-center px-4">Belum Ada Foto / Link Tidak Valid</p>
                   </div>
                 )}
-                <div className="absolute inset-0 bg-sky-600/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-8">
-                  <input 
-                    type="file" 
-                    accept="image/*"
-                    onChange={(e) => e.target.files?.[0] && handleUpload(e.target.files[0], "ownerImageUrl")}
-                    className="absolute inset-0 opacity-0 cursor-pointer"
-                  />
-                  <div className="bg-white text-gray-950 px-6 py-3 rounded-full font-black text-[10px] uppercase tracking-widest shadow-xl">Ganti dengan Upload</div>
-                </div>
               </div>
             </div>
           </div>

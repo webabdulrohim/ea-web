@@ -28,7 +28,7 @@ export default function Navbar() {
       }`}>
       <div className="container mx-auto px-6 flex justify-between items-center">
         <Link href="/" className="flex items-center gap-3 lg:gap-4 group">
-          <div className="relative w-12 h-12 lg:w-16 lg:h-16 overflow-hidden transition-transform duration-500 group-hover:rotate-[10deg]">
+          <div className="relative w-16 h-16 lg:w-24 lg:h-24 overflow-hidden transition-transform duration-500 group-hover:rotate-[10deg]">
             <Image 
               src={logoUrl} 
               alt="English Action Logo" 
@@ -37,7 +37,7 @@ export default function Navbar() {
               priority
             />
           </div>
-          <span className={`hidden sm:inline text-2xl lg:text-3xl font-black text-gray-950 tracking-tighter uppercase italic`}>English Action</span>
+          <span className={`hidden sm:inline text-2xl lg:text-4xl font-black text-gray-950 tracking-tighter uppercase italic`}>English Action</span>
         </Link>
         
         {/* Desktop Menu */}
