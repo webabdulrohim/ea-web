@@ -38,8 +38,10 @@ export default function AdminGallery() {
       setModalOpen(false);
       setFormData({ title: "", url: "" });
       fetchItems();
-    } catch (err) {
-      alert("Gagal mengunggah foto");
+      alert("Foto berhasil disimpan ke galeri!");
+    } catch (err: any) {
+      const errMsg = err.response?.data?.error || err.response?.data?.details || "Gagal menyimpan ke database";
+      alert("Gagal: " + errMsg);
     }
   };
 
@@ -138,10 +140,15 @@ export default function AdminGallery() {
                         onChange={async (e) => {
                           const file = e.target.files?.[0];
                           if (file) {
-                            const uploadData = new FormData();
-                            uploadData.append("file", file);
-                            const res = await axios.post("/api/upload", uploadData);
-                            setFormData({...formData, url: res.data.url});
+                            try {
+                              const uploadData = new FormData();
+                              uploadData.append("file", file);
+                              const res = await axios.post("/api/upload", uploadData);
+                              setFormData({...formData, url: res.data.url});
+                            } catch (err: any) {
+                              const errMsg = err.response?.data?.error || err.response?.data?.details || "Gagal mengunggah foto";
+                              alert("Upload Gagal: " + errMsg);
+                            }
                           }
                         }}
                         className="text-xs text-gray-500 file:mr-4 file:py-3 file:px-6 file:rounded-2xl file:border-0 file:text-[10px] file:font-black file:bg-sky-600 file:text-white cursor-pointer shadow-lg shadow-sky-100"

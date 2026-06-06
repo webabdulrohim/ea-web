@@ -42,8 +42,10 @@ export default function AdminSettings() {
     try {
       const res = await axios.post("/api/upload", uploadData);
       setFormData(prev => ({ ...prev, [field]: res.data.url }));
-    } catch (err) {
-      alert("Gagal mengunggah gambar.");
+      alert("Gambar berhasil diunggah!");
+    } catch (err: any) {
+      const errMsg = err.response?.data?.error || err.response?.data?.details || "Gagal mengunggah gambar.";
+      alert("Upload Gagal: " + errMsg);
     }
   };
 
@@ -53,8 +55,9 @@ export default function AdminSettings() {
     try {
       await axios.post("/api/admin/settings", formData);
       alert("Pengaturan landing page berhasil disimpan!");
-    } catch (err) {
-      alert("Gagal menyimpan pengaturan.");
+    } catch (err: any) {
+      const errMsg = err.response?.data?.error || err.response?.data?.details || "Gagal menyimpan pengaturan.";
+      alert("Simpan Gagal: " + errMsg);
     } finally {
       setSaving(false);
     }

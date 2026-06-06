@@ -8,83 +8,82 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  password      String
-  role          String    @default("STUDENT_PARENT")
-  phoneNumber   String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-
-  tutorSkills   TutorSkill[]
+  id             String         @id @default(cuid())
+  name           String?
+  email          String         @unique
+  password       String
+  role           String         @default("STUDENT_PARENT")
+  phoneNumber    String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
   availabilities Availability[]
-  tutorBookings ClassBooking[] @relation("TutorBookings")
-  students      Student[]
+  tutorBookings  ClassBooking[] @relation("TutorBookings")
+  students       Student[]
+  tutorSkills    TutorSkill[]
 }
 
 model Program {
-  id          String      @id @default(cuid())
-  name        String      @unique
-  description String?     @db.Text
+  id          String         @id @default(cuid())
+  name        String         @unique
+  description String?
   price       Float
-  skills      TutorSkill[]
   bookings    ClassBooking[]
+  skills      TutorSkill[]
 }
 
 model Student {
-  id            String    @id @default(cuid())
-  name          String
-  dateOfBirth   DateTime
-  parentId      String
-  parent        User      @relation(fields: [parentId], references: [id])
-  bookings      ClassBooking[]
-  grade         String?
-  school        String?
-  status        String    @default("ACTIVE")
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id          String         @id @default(cuid())
+  name        String
+  dateOfBirth DateTime
+  parentId    String
+  grade       String?
+  school      String?
+  status      String         @default("ACTIVE")
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  bookings    ClassBooking[]
+  parent      User           @relation(fields: [parentId], references: [id])
 }
 
 model TutorSkill {
   id        String  @id @default(cuid())
   tutorId   String
-  tutor     User    @relation(fields: [tutorId], references: [id])
   programId String
   program   Program @relation(fields: [programId], references: [id])
+  tutor     User    @relation(fields: [tutorId], references: [id])
 
   @@unique([tutorId, programId])
 }
 
 model Availability {
-  id        String   @id @default(cuid())
+  id        String @id @default(cuid())
   tutorId   String
-  tutor     User     @relation(fields: [tutorId], references: [id])
   dayOfWeek Int
   startTime String
   endTime   String
-  
+  tutor     User   @relation(fields: [tutorId], references: [id])
+
   @@unique([tutorId, dayOfWeek, startTime, endTime])
 }
 
 model ClassBooking {
   id               String   @id @default(cuid())
   tutorId          String
-  tutor            User     @relation("TutorBookings", fields: [tutorId], references: [id])
   studentId        String
-  student          Student  @relation(fields: [studentId], references: [id])
   programId        String
-  program          Program  @relation(fields: [programId], references: [id])
   date             DateTime
   startTime        DateTime
   endTime          DateTime
   status           String   @default("SCHEDULED")
-  attendance       Boolean? 
-  attendanceStatus String?  @default("SCHEDULED") 
-  notes            String?  @db.Text
-  report           String?  @db.Text
+  attendance       Boolean?
+  attendanceStatus String?  @default("SCHEDULED")
+  notes            String?
+  report           String?
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
+  program          Program  @relation(fields: [programId], references: [id])
+  student          Student  @relation(fields: [studentId], references: [id])
+  tutor            User     @relation("TutorBookings", fields: [tutorId], references: [id])
 }
 
 model Invoice {
@@ -93,51 +92,49 @@ model Invoice {
   amount      Float
   dueDate     DateTime
   status      String   @default("UNPAID")
-  proofImage  String?  @db.Text
-  description String?  @db.Text
-  items       String?  @db.Text
+  proofImage  String?
+  description String?
+  items       String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
 
 model Transaction {
   id          String   @id @default(cuid())
-  type        String   
-  category    String   
+  type        String
+  category    String
   amount      Float
   date        DateTime @default(now())
-  description String?  @db.Text
+  description String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
 
-// --- CMS & Content Models ---
-
 model LandingContent {
   id            String   @id @default("singleton")
-  logoUrl       String?  @db.Text
+  logoUrl       String?
   heroTitle     String   @default("EA - English Action")
-  heroDesc      String   @default("Be Brave to Act") @db.Text
-  heroImageUrl  String?  @db.Text
+  heroDesc      String   @default("Be Brave to Act")
+  heroImageUrl  String?
   ownerName     String   @default("Owner EA")
-  ownerMsg      String   @default("Selamat datang...") @db.Text
-  ownerImageUrl String?  @db.Text
-  videoUrl      String?  @db.Text
+  ownerMsg      String   @default("Selamat datang...")
+  ownerImageUrl String?
+  videoUrl      String?
   updatedAt     DateTime @updatedAt
 }
 
 model Location {
   id        String   @id @default(cuid())
-  name      String   
-  address   String   @db.Text
-  mapsUrl   String   @db.Text
+  name      String
+  address   String
+  mapsUrl   String
   createdAt DateTime @default(now())
 }
 
 model GalleryItem {
   id        String   @id @default(cuid())
-  type      String   @default("IMAGE") 
-  url       String   @db.Text
+  type      String   @default("IMAGE")
+  url       String
   title     String?
   createdAt DateTime @default(now())
 }
@@ -146,8 +143,8 @@ model Post {
   id        String   @id @default(cuid())
   title     String
   slug      String   @unique
-  content   String   @db.Text
-  image     String?  @db.Text
+  content   String
+  image     String?
   published Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
